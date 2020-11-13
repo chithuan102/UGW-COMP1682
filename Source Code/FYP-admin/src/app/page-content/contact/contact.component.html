@@ -1,0 +1,52 @@
+<app-box-content>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="room-info">
+          <h4>List of Contacts</h4>
+          <!-- <form (keyup.enter)="onSearch()">
+            <div class="row">
+              <div class="col-md-2">
+                Transaction Name: <input nz-input placeholder="Input transaction name" [(ngModel)]="filterName" name="filterName"
+                  type="text" />
+              </div>
+              <div class="col-md-3">
+                <br>
+                <button nz-button class="btn btn-primary" style="margin-right: 10px" (click)="onSearch()"
+                  type="submit">Search</button>
+                <button nz-button class="btn btn-primary" (click)="onResetFilter()">Reset</button>
+              </div>
+              <div class="col-md-7 text-right">
+                  <br>
+                <button (click)="showModal()" nz-button>Create transaction</button>
+               </div>
+            </div>
+          </form>
+          <br> -->
+          
+          <nz-table #basicTable [nzData]="listOfData">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Message</th>
+                <th>Created Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of listOfData">
+                <td>{{ data.name }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.phone }}</td>
+                <td>{{ data.address }}</td>
+                <td>{{ data.message }}</td>
+                <td>{{ data.createdTime | date: 'yyyy-MM-dd' }}</td>
+
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </app-box-content>

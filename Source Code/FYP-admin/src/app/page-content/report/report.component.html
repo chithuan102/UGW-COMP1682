@@ -1,0 +1,280 @@
+<app-box-content>
+    <div class="row" #tableSummary>
+        <div class="col-md-12">
+            <div class="room-info">
+                <h4>Summary report</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        Date range:
+                        <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="dateSummary"></nz-range-picker>
+                    </div>
+                    <div class="col-md-9">
+                        <br>
+                        <button nz-button style="float: right;margin-bottom: 10px; "
+                            (click)="runReportSummary('SUMMARY')">Run
+                            report</button>
+                        <button nz-button style="float: right;margin-bottom: 10px; margin-right: 5px;"
+                            nzType="success" (click)="exportSummary()">Export
+                            report</button>
+                    </div>
+                </div>
+                <br>
+                <nz-table #filterTable [nzData]="['']" nzTableLayout="fixed">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- <tr>
+                            <td>From date</td>
+                            <td>{{dateSummary[0] | date: 'yyyy-MM-dd'}}</td>
+                        </tr>
+                        <tr>
+                            <td>To date</td>
+                            <td>{{dateSummary[1] | date: 'yyyy-MM-dd'}}</td>
+                        </tr> -->
+                        <tr>
+                            <td>Total booking</td>
+                            <td>{{reportSummary.total_booking}}</td>
+                        </tr>
+                        <tr>
+                            <td>Total arrival</td>
+                            <td>{{reportSummary.total_arrival}}</td>
+                        </tr>
+                        <tr>
+                            <td>Total inhouse</td>
+                            <td>{{reportSummary.total_inhouse}}</td>
+                        </tr>
+                        <tr>
+                            <td>Total checkout</td>
+                            <td>{{reportSummary.total_checkout}}</td>
+                        </tr>
+                        <tr>
+                            <td>Total cancelled</td>
+                            <td>{{reportSummary.total_cancelled}}</td>
+                        </tr>
+                        <tr>
+                            <td>Total new guests</td>
+                            <td>{{reportSummary.total_new_guest}}</td>
+                        </tr>
+                        <tr>
+                            <td>Total comments</td>
+                            <td>{{reportSummary.total_comment_create}}</td>
+                        </tr>
+                        <tr>
+                            <td>Total revenue</td>
+                            <td>{{reportSummary.total_revenue !== 0 ? reportSummary.total_revenue *-1 : 0}}</td>
+                        </tr>
+                        <tr>
+                            <td>Total service used</td>
+                            <td>{{reportSummary.total_service_used}}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row" #tableTransaction>
+        <div class="col-md-12">
+            <div class="room-info">
+                <h4>Transaction report</h4>
+                <div class="row">
+                    <div class="col-md-2">
+                        Date range:
+                        <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="dateTransaction"></nz-range-picker>
+                    </div>
+                    <div class="col-md-2">
+                        Transaction type:
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Type" name="transactionType"
+                            [(ngModel)]="transactionType" [nzAllowClear]="'false'">
+                            <nz-option nzLabel="All" nzValue="ALL"></nz-option>
+                            <nz-option nzLabel="Payment" nzValue="PAYMENT"></nz-option>
+                            <nz-option nzLabel="Service" nzValue="SERVICE"></nz-option>
+                        </nz-select>
+                    </div>
+                    <div class="col-md-8">
+                        <br>
+                        <button nz-button style="float: right;" (click)="runReportTransaction('TRANSACTION')">Run
+                            report</button>
+
+                        <button nz-button style="float: right; margin-right: 5px;" nzType="success" (click)="exportTransaction()">Export
+                            report</button>
+                    </div>
+                </div>
+                <br>
+                - <span style="font-weight: bold;">Total balance amount</span>: <span
+                    style="color: red;font-weight: bold;">{{totalBalanceAmount | number}}$</span>&nbsp;&nbsp;
+                - <span style="font-weight: bold;">Total payment amount</span>: <span
+                    style="color: red;font-weight: bold;">{{totalPaymentAmount | number}}$</span>&nbsp;&nbsp;
+                - <span style="font-weight: bold;">Total service amount</span>: <span
+                    style="color: red;font-weight: bold;">{{totalServiceAmount | number}}$</span>
+                <br>
+                <nz-table #basicTable nzTableLayout="fixed" [nzData]="reportTransaction">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                            <th>Res. Id</th>
+                            <th>Res. Status</th>
+                            <th>Guest Name</th>
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data">
+                            <td>{{data.transactionCode}}</td>
+                            <td>{{data.type}}</td>
+                            <td>{{data.price}}</td>
+                            <td>{{data.description}}</td>
+                            <td><a [routerLink]="['/reservation',data ? data.reservation.id : '']"
+                                    routerLinkActive="router-link-active">{{data ? data.reservation.id : ''}}</a></td>
+                            <td *ngIf="data">
+                                <span class="tag tag-blue"
+                                    *ngIf="data.reservation.reservationStatus === 'INHOUSE'">{{data.reservation.reservationStatus}}
+                                    <!---->
+                                    <!----></span>
+                                <span class="tag tag-green"
+                                    *ngIf="data.reservation.reservationStatus === 'ARRIVAL'">{{data.reservation.reservationStatus}}
+                                    <!---->
+                                    <!----></span>
+                                <span class="tag tag-yellow"
+                                    *ngIf="data.reservation.reservationStatus === 'CHECKOUT'">{{data.reservation.reservationStatus}}
+                                    <!---->
+                                    <!----></span>
+                                <span class="tag tag-red"
+                                    *ngIf="data.reservation.reservationStatus === 'CANCELLED'">{{data.reservation.reservationStatus}}
+                                    <!---->
+                                    <!----></span>
+                            </td>
+                            <td>
+                                <div *ngIf="data"><a [routerLink]="['/profile', data.mainGuest ? data.mainGuest.id: 0 ]"
+                                        routerLinkActive="router-link-active">{{ data.mainGuest ? (data.mainGuest.firstName && data.mainGuest.lastName ? data.mainGuest.firstName + ' ' + data.mainGuest.lastName: data.mainGuest.fullName) : ''}}</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row" #tableReservation>
+        <div class="col-md-12">
+            <div class="room-info">
+                <h4>Reservation report</h4>
+                <div class="row">
+                    <div class="col-md-2">
+                        Date range:
+                        <nz-range-picker [nzFormat]="dateFormat" [(ngModel)]="dateReservation"></nz-range-picker>
+                    </div>
+                    <div class="col-md-2">
+                        Reservation status:
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Type" name="reservationType"
+                            [(ngModel)]="reservationType" [nzAllowClear]="'false'">
+                            <nz-option nzLabel="All" nzValue="ALL"></nz-option>
+                            <nz-option nzLabel="Arrival" nzValue="ARRIVAL"></nz-option>
+                            <nz-option nzLabel="Inhouse" nzValue="INHOUSE"></nz-option>
+                            <nz-option nzLabel="Checkout" nzValue="CHECKOUT"></nz-option>
+                            <nz-option nzLabel="Cancelled" nzValue="CANCELLED"></nz-option>
+                        </nz-select>
+                    </div>
+                    <div class="col-md-8">
+                        <br>
+                        <button nz-button style="float: right;" (click)="runReportReservation('TRANSACTION')">Run
+                            report</button>
+
+                        <button nz-button style="float: right; margin-right: 5px;" nzType="success" (click)="exportReservation()">Export
+                            report</button>
+                    </div>
+                </div>
+                <br>
+                <nz-table [nzData]="reservations">
+                    <thead>
+                        <tr>
+                            <th>Res. Id</th>
+                            <th>Guest Name</th>
+                            <th>Room Type</th>
+                            <th>Room Id</th>
+                            <th>Res. Status</th>
+                            <th>Arrival</th>
+                            <th>Departure</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of reservations">
+                            <td><a [routerLink]="['/reservation',data.id]"
+                                    routerLinkActive="router-link-active">{{ data.id }}</a></td>
+                            <td>
+                                <div *ngIf="data"><a [routerLink]="['/profile', data.mainGuest ? data.mainGuest.id: 0 ]"
+                                        routerLinkActive="router-link-active">{{ data.mainGuest ? (data.mainGuest.firstName && data.mainGuest.lastName ? data.mainGuest.firstName + ' ' + data.mainGuest.lastName: data.mainGuest.fullName) : ''}}</a>
+                                </div>
+                            </td>
+                            <td><a [routerLink]="['/room-type',data.roomType ? data.roomType.id : '']" >{{ data.roomType ? data.roomType.title : '' }}</a> </td>
+                            <td>{{ data.roomId }}</td>
+                            <td>
+                                <span class="tag tag-blue"
+                                    *ngIf="data.reservationStatus === 'INHOUSE'">{{data.reservationStatus}}
+                                    <!---->
+                                    <!----></span>
+                                <span class="tag tag-green"
+                                    *ngIf="data.reservationStatus === 'ARRIVAL'">{{data.reservationStatus}}
+                                    <!---->
+                                    <!----></span>
+                                <span class="tag tag-yellow"
+                                    *ngIf="data.reservationStatus === 'CHECKOUT'">{{data.reservationStatus}}
+                                    <!---->
+                                    <!----></span>
+                                <span class="tag tag-red"
+                                    *ngIf="data.reservationStatus === 'CANCELLED'">{{data.reservationStatus}}
+                                    <!---->
+                                    <!----></span>
+                            </td>
+                            <td>{{ data.arrivalDate | date :'yyyd-MM-dd'}}</td>
+                            <td>{{ data.departureDate | date :'yyyd-MM-dd'}}</td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="col-lg-12 table-responsive" #TABLE #table>  
+        <div style="padding-bottom: 10px;padding-top: 10px;">  
+          <div class="row">  
+            <div class="col-sm-12">  
+              <button (click)="ExportTOExcel()" class="btn btn-success">ExportTOExcel</button> </div>  
+          </div>  
+        </div>  
+        <table class="table table-bordered">  
+          <thead class="thead-dark">  
+            <tr>  
+              <th>S.No</th>  
+              <th>Team</th>  
+              <th>Match</th>  
+              <th>Win</th>  
+              <th>Loss</th>  
+              <th>Cancel</th>  
+              <th>Point</th>  
+            </tr>  
+          </thead>  
+          <tbody>  
+            <tr *ngFor="let tm of team">  
+              <td>{{tm.Sno}}</td>  
+              <td>{{tm.Team}}</td>  
+              <td>{{tm.Match}}</td>  
+              <td>{{tm.Win}}</td>  
+              <td>{{tm.Loss}}</td>  
+              <td>{{tm.Cancel}}</td>  
+              <td>{{tm.Point}}</td>  
+            </tr>  
+          </tbody>  
+        </table>  
+      </div> -->
+</app-box-content>

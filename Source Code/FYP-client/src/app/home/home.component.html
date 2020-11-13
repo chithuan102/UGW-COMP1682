@@ -1,0 +1,143 @@
+<!-- Hero Section Begin -->
+<section class="hero-section" style="background-image: url('../../assets/images/hero/hero-1.jpg');">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="hero-text">
+                    <h1>THUANMC Luxury Hotel</h1>
+                    <p>Here are the best hotel booking sites, including recommendations for international
+                        travel and for finding low-priced hotel rooms.</p>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
+                <div class="booking-form">
+                    <h3>Booking Your Hotel</h3>
+                    <form>
+                        <div class="form-group">
+                            <label style="font-size: 16px;">Select Date</label>
+                            <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onSelectDate($event)"
+                                name="dateRange">
+                            </nz-range-picker>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 16px;">Select Room Type</label>
+                            <nz-select [(ngModel)]="selectedRoomType" name="selectedRoomType">
+                                <nz-option *ngFor="let option of roomTypes" [nzValue]="option" [nzLabel]="option.title">
+                                </nz-option>
+                            </nz-select>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 16px;">Number of Guest</label>
+                            <input nz-input placeholder="Input number of Guest" [(ngModel)]="noOfGuest" name="noOfGuest"
+                                type="number" />
+                        </div>
+                        <div class="text-right" style="text-align: center;">
+                            <button type="button" class="btn btn-primary btn-lg"
+                                style="background-color: #dfa974; color: #fff;" (click)="onCheckRoom()">CHECK NOW
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-slider owl-carousel">
+        <div class="hs-item set-bg" data-setbg="" style="background-image: url('../../assets/images/hero/hero-1.jpg');">
+        </div>
+        <div class="hs-item set-bg" data-setbg="" style="background-image: url('../../assets/images/hero/hero-1.jpg');">
+        </div>
+        <div class="hs-item set-bg" data-setbg="" style="background-image: url('../../assets/images/hero/hero-1.jpg');">
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
+<!-- Services Section End -->
+<section class="services-section spad">
+    <div class="container">
+        <h2>Popuplar rooms</h2>
+        <owl-carousel [options]="options" [items]="mostPopular" [carouselClasses]="carouselClasses">
+            <div class="item" *ngFor="let item of mostPopular;let i = index">
+                <div class="room-item" style="margin-right: 10px;">
+                    <img src="{{item.thumbnail}}" alt="">
+                    <div class="ri-text">
+                        <h4>{{item.title}}</h4>
+                        <h3>{{item.price}}$<span>/Pernight</span></h3>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="r-o">Size:</td>
+                                    <td>30 ft</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Capacity:</td>
+                                    <td>Max persion {{item.maxOccupancy}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Bed:</td>
+                                    <td>King Beds</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Services:</td>
+                                    <td>Wifi, Television, Bathroom,...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="#" class="primary-btn" [routerLink]="['/room-detail/',item.id]">More Details</a>
+                    </div>
+                </div>
+            </div>
+        </owl-carousel>
+    </div>
+</section>
+<section class="services-section spad">
+    <div class="container">
+        <h2>Most booked</h2>
+        <owl-carousel [options]="options" [items]="mostBooked" [carouselClasses]="carouselClasses">
+            <div class="item" *ngFor="let item of mostBooked;let i = index">
+                <div class="room-item" style="margin-right: 10px;">
+                    <img src="{{item.thumbnail}}" alt="">
+                    <div class="ri-text">
+                        <h4>{{item.title}}</h4>
+                        <h3>{{item.price}}$<span>/Pernight</span></h3>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="r-o">Size:</td>
+                                    <td>30 ft</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Capacity:</td>
+                                    <td>Max persion {{item.maxOccupancy}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Bed:</td>
+                                    <td>King Beds</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Services:</td>
+                                    <td>Wifi, Television, Bathroom,...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="#" class="primary-btn" [routerLink]="['/room-detail/',item.id]">More Details</a>
+                    </div>
+                </div>
+            </div>
+        </owl-carousel>
+    </div>
+</section>
+<!-- Services Section End -->
+
+<!-- Footer Section Begin -->
+<footer class="footer-section">
+    <div class="copyright-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <span style="color: #ffff;">Copyright 2020 By Mạch Chí Thuận - thuamcgcs16103@fpt.edu.vn</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Section End -->

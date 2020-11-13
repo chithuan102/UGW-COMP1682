@@ -1,0 +1,83 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item>
+        <a [routerLink]="['/dashboard']">Reservation</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+        <a [routerLink]="['/reservation', reservation.id]">Reservation Detail</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+        Billing
+    </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<app-box-content>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="room-info">
+                <h3>Billing Information</h3>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <div style="display: flex;justify-content: space-between; padding:  0 15px;">
+                            <div>
+                                <span>Total balance: {{balance}}$ </span>
+                            </div>
+                            <div>
+                                <button nz-button style="margin-bottom: 20px; margin-right: 10px" (click)="checkOut()"
+                                    *ngIf="reservation.reservationStatus === 'INHOUSE' ">Checkout</button>
+                                <button (click)="showModal()" nz-button style="margin-bottom: 20px;"
+                                    *ngIf="reservation.reservationStatus === 'ARRIVAL' || reservation.reservationStatus === 'INHOUSE' ">Create
+                                    transaction</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <nz-table #basicTable [nzData]="reservation.transactions">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                            <th *ngIf="reservation.reservationStatus !== 'CHECKOUT'">Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data">
+                            <td>{{ data.transactionCode }}</td>
+                            <td>{{ data.price }}$</td>
+                            <td>{{ data.description }}</td>
+                            <td *ngIf="reservation.reservationStatus !== 'CHECKOUT'">
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <a (click)="delete(data)">Delete</a>
+                                <nz-divider nzType="vertical"></nz-divider>
+                                <a>Edit</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</app-box-content>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Form Information" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <form nz-form [formGroup]="createForm">
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Transaction Type</label>
+            <select class="form-control" id="exampleFormControlSelect1" formControlName="transactionCode">
+                <option *ngFor="let item of transactionCodes" [ngValue]="item">{{item.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Amount</label>
+            <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Amount"
+                formControlName="price">
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Description</label>
+                <textarea name="" id="" cols="30" rows="5" placeholder="Type description" class="form-control"
+                formControlName="description"></textarea>
+        </div>
+    </form>
+</nz-modal>

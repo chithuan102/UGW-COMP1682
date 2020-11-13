@@ -1,0 +1,65 @@
+<app-box-content>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="room-info">
+          <h4>Role Info</h4>
+          <form (keyup.enter)="onSearch()">
+            <div class="row">
+              <div class="col-md-2">
+                Role Name: <input nz-input placeholder="Input role name" [(ngModel)]="filterName" name="filterName"
+                  type="text" />
+              </div>
+              <div class="col-md-3">
+                <br>
+                <button nz-button class="btn btn-primary" style="margin-right: 10px" (click)="onSearch()"
+                  type="submit">Search</button>
+                <button nz-button class="btn btn-primary" (click)="onResetFilter()">Reset</button>
+              </div>
+              <div class="col-md-7 text-right">
+                <br>
+                <button (click)="showModal()" nz-button style="margin-bottom: 20px;">Create</button>
+              </div>
+            </div>
+          </form>
+          <!-- <div class="row">
+            <div class="col-md-12 text-right">
+              <button (click)="showModal()" nz-button style="margin-bottom: 20px;">Create</button>
+            </div>
+          </div> -->
+          <nz-table #basicTable [nzData]="listOfRole">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of listOfRole">
+                <td>{{ data.title }}</td>
+                <td>
+                  <app-toggle-switch [model]="!data.disabled" [name]="'status'"
+                    (modelChange)="onStatusChange($event ,data)"></app-toggle-switch>
+                </td>
+                <td>
+                  <nz-divider nzType="vertical" *ngIf="data.title !== 'ADMIN'"></nz-divider>
+                  <a (click)="delete(data)" *ngIf="data.title !== 'ADMIN'">Delete</a>
+                  <nz-divider nzType="vertical" *ngIf="data.title !== 'ADMIN'"></nz-divider>
+                  <a [routerLink]="['/role',data.id]" *ngIf="data.title !== 'ADMIN'">Edit</a>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </app-box-content>
+  
+  <nz-modal [(nzVisible)]="isVisible" nzTitle="Role Info" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <form nz-form [formGroup]="createForm">
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Name</label>
+        <input type="text" class="form-control" placeholder="Type Name" formControlName="title">
+      </div>
+    </form>
+  </nz-modal>

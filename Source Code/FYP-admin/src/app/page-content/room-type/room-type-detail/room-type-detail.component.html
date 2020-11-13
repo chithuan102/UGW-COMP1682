@@ -1,0 +1,152 @@
+<app-box-content>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="room-info">
+                <h4>Room Type Info</h4>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-warning" style="margin-bottom: 20px; margin-right: 10px;" onclick="window.history.back()">Back</button>
+                        <button class="btn btn-primary" style="margin-bottom: 20px;" (click)="onSave()">Save</button>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 30px;">
+                    <div class="col-md-12">
+                        <form nz-form [formGroup]="form">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" placeholder="Room type name"
+                                        formControlName="title">
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Max Occupancy</label>
+                                    <input type="number" class="form-control" placeholder="Max Occupancy"
+                                        formControlName="maxOccupancy">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Price</label>
+                                    <input type="number" class="form-control" placeholder="Price"
+                                        formControlName="price">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Bed</label>
+                                    <input type="number" class="form-control" placeholder="Bed"
+                                        formControlName="bed">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Area</label>
+                                    <input type="number" class="form-control" placeholder="Area"
+                                    formControlName="area">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label>Thumbnail</label>
+                                    <div style="width: 300px; height: auto;border: 1px solid black;">
+                                        <img src="{{thumbnail}}" alt="image" style="width: 100%;">
+                                    </div>
+                                    <br>
+                                    <label class="btn btn-success text-center" style="cursor: pointer;" for="inputImageThumnail"
+                                    title="Upload image file">
+                                    <input type="file" class="sr-only" id="inputImageThumnail" name="file" accept="image/*"
+                                    onclick="this.value=null;" (change)="onThumbnailChange($event)">
+                                    <span class="p-1"> Select
+                                        <!-- <div class="spinner-border" role="status" *ngIf="isLoadingThumbnail">
+                                            <span class="sr-only">Loading...</span>
+                                          </div> -->
+                                          <nz-spin nzSimple *ngIf="isLoadingThumbnail"></nz-spin>
+                                    </span>
+                    
+                                    </label>
+                                    
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Banner</label>
+                                    <div style="width: 300px; height: auto;border: 1px solid black;">
+                                        <img src="{{banner}}" alt="image" style="width: 100%;">
+                                    </div>
+                                    <br>
+                                    <label class="btn btn-success text-center" style="cursor: pointer;" for="inputImageBanner"
+                                    title="Upload image file">
+                                    <input type="file" class="sr-only" id="inputImageBanner" name="file" accept="image/*"
+                                    onclick="this.value=null;" (change)="onBannerChange($event)">
+                                    <span class="p-1"> Select
+                                          <nz-spin nzSimple *ngIf="isLoadingBanner"></nz-spin>
+                                    </span>
+                    
+                                    </label>
+                                    
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>Description</label>
+                                    <textarea name="" id="" cols="30" rows="10" class="form-control"
+                                        formControlName="description" placeholder="Description"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label>Services</label>
+                                    <ng-select [items]="listServices" bindLabel="title" [clearable]="false" formControlName="roomServices"
+                                    (change)="onSelectServices($event)" [multiple]="true"></ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label>Status</label><br>
+                                    <app-toggle-switch [model]="status" [name]="'status'" (modelChange)="onStatusChange($event)"></app-toggle-switch>
+                                </div>
+                            </div>
+                            <!-- <div class="row">
+                                <div class="col-md-12 text-right">
+                                    <button class="btn btn-primary" style="margin-bottom: 20px;" (click)="showModal()">Create comment</button>
+            
+                                </div>
+                            </div> -->
+                            <div *ngIf="roomTypeDetail.comments.length>0"> 
+                                <nz-table #basicTable [nzData]="roomTypeDetail.comments">
+                                    <thead>
+                                        <tr>
+                                            <th>UserName</th>
+                                            <th>Comment</th>
+    
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of basicTable.data">
+                                            <td>{{ data.profile.firstName && data.profile.lastName ? data.profile.lastName +" "+ data.profile.firstName :  data.profile.fullName }}</td>
+                                            <td>{{ data.comment }}</td>
+                                            <td>
+                                               <a (click)="delete(data)">Delete</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</app-box-content>
+<!-- 
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Form Information" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <form nz-form [formGroup]="createForm">
+      <div class="form-group">
+        <label for="exampleFormControlInput1">User Name</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Type Username" formControlName="username">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Comment</label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Type comment" formControlName="comment">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Rate</label>
+        <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Type rate" formControlName="rate">
+      </div>
+    </form>
+  </nz-modal> -->

@@ -1,0 +1,74 @@
+  <div class="my-3"></div>
+    <!-- Breadcrumb Section Begin -->
+    <div class="breadcrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <h2>Our Rooms</h2>
+                        <div class="bt-option">
+                            <a href="./home.html">Home</a>
+                            <span>Rooms</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section End -->
+  <!-- Rooms Section Begin -->
+  <section class="rooms-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6" *ngFor="let item of rooms">
+                <div class="room-item">
+                    <img src="{{item.thumbnail}}" alt="">
+                    <div class="ri-text">
+                        <h4>{{item.title}}</h4>
+                        <h3>{{item.price}}$<span>/Pernight</span></h3>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="r-o">Size:</td>
+                                    <td>30 ft</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Capacity:</td>
+                                    <td>Max persion {{item.maxOccupancy}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Bed:</td>
+                                    <td>King Beds</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Services:</td>
+                                    <td>Wifi, Television, Bathroom,...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="#" class="primary-btn" [routerLink]="['/room-detail/',item.id]" >More Details</a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col-lg-12">
+                <div class="room-pagination">
+                    <a href="#">1</a>
+                    <a href="#">2</a>
+                    <a href="#">Next <i class="fa fa-long-arrow-right"></i></a>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</section>
+<footer class="footer-section">
+    <div class="copyright-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <span style="color: #ffff;">Copyright 2020 By Mạch Chí Thuận - thuamcgcs16103@fpt.edu.vn</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Rooms Section End -->

@@ -1,0 +1,165 @@
+<!-- Room Details Section Begin -->
+<section class="room-details-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="room-details-item">
+                    <img src="{{roomDetail.banner}}" alt="">
+                    <div class="rd-text">
+                        <div class="rd-title">
+                            <h3>{{roomDetail.title}}</h3>
+                            <div class="rdt-right">
+                                <div class="rating">
+                                    {{roomRate}}/5
+                                    <i class="icon_star"></i>
+                                </div>
+                                <a href="#" [routerLink]="['/booking']" [queryParams]="{roomType: roomDetail.id}" >Booking Now</a>
+                            </div>
+                        </div>
+                        <h2>{{roomDetail.price}}$<span>/Pernight</span></h2>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td class="r-o">Size:</td>
+                                    <td>30 ft</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Capacity:</td>
+                                    <td>Max persion {{roomDetail.maxOccupancy}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Bed:</td>
+                                    <td>King Beds</td>
+                                </tr>
+                                <tr>
+                                    <td class="r-o">Services:</td>
+                                    <td>Wifi, Television, Bathroom,...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div [innerHTML]="roomDetail.description">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="rd-reviews" *ngFor="let item of listComment">
+                    <h4>Reviews</h4>
+                    <div class="review-item">
+                        <div class="ri-pic" *ngIf="item.profile.gender === 'Mrs' || item.profile.gender === 'Ms'">
+                            <img src="../../assets/images/room/avatar/avatar-girl.png" alt="">
+                        </div>
+                        <div class="ri-pic" *ngIf="item.profile.gender === 'Mr' || !item.profile">
+                            <img src="../../assets/images/room/avatar/avatar-boy.png" alt="">
+                        </div>
+                        <div class="ri-text">
+                            <span>27 Aug 2020</span>
+                     
+                            <div class="rating">
+                                {{item.rate}}/5
+                                <i class="icon_star"></i>
+                            </div>
+                            <h5>{{item.profile.lastName && item.profile.firstName ?  item.profile.lastName + ' ' + item.profile.firstName: item.profile.fullName}}</h5>
+                            <p>{{item.comment}}</p>
+                        </div>
+                    </div>
+                    <!-- <div class="review-item">
+                        <div class="ri-pic">
+                            <img src="../../assets/images/room/avatar/avatar-2.jpg" alt="">
+                        </div>
+                        <div class="ri-text">
+                            <span>27 Aug 2019</span>
+                            <div class="rating">
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                                <i class="icon_star"></i>
+                                <i class="icon_star-half_alt"></i>
+                            </div>
+                            <h5>Brandon Kelley</h5>
+                            <p>Neque porro qui squam est, qui dolorem ipsum quia dolor sit amet, consectetur,
+                                adipisci velit, sed quia non numquam eius modi tempora. incidunt ut labore et dolore
+                                magnam.</p>
+                        </div>
+                    </div> -->
+                </div>
+                <br>
+                <div class="review-add">
+                    <h4>Add Review</h4>
+                    <form action="#" class="ra-form">
+                        <div class="row">
+                            <!-- <div class="col-lg-6">
+                                <input type="text" placeholder="Name*">
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" placeholder="Email*">
+                            </div> -->
+                            <div class="col-lg-12">
+                                <div class="row" >
+                                    <div class="col-md-3" style="display: flex;align-items: center;">
+                                        <span style="font-size: 20px; font-weight: bold;">You Rating:</span>
+                                    </div>
+                                   
+                                    <div class="col-md-2" style="display: flex;align-items: center;">
+                                        <select name="rating" id="" class="form-control" [(ngModel)]="rating">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="colmd-3" style="display: flex;align-items: center;">
+                                        <div class="rating">
+                                        <i class="icon_star"></i>
+                                    </div>
+                                    </div>
+                                </div>
+                                <textarea placeholder="Your Review" style="margin-top: 10px;" [(ngModel)]="comment" name="comment"></textarea>
+                                <button type="button" (click)="submitReview()">Submit Now</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="room-booking" style="background: #fff;padding: 20px; border-radius: 5px;">
+                    <h3>Your Reservation</h3>
+                    <form action="#">
+                        <div class="form-group">
+                            <label style="font-size: 16px;">Select Date</label>
+                            <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onSelectDate($event)"
+                                name="dateRange">
+                            </nz-range-picker>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 16px;">Select Room Type</label>
+                            <nz-select [(ngModel)]="selectedRoomType" name="selectedRoomType">
+                                <nz-option *ngFor="let option of roomTypes" [nzValue]="option" [nzLabel]="option.title">
+                                </nz-option>
+                            </nz-select>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size: 16px;">Number of Guest</label>
+                            <input nz-input placeholder="Input number of Guest" [(ngModel)]="noOfGuest" name="noOfGuest"
+                                type="number" />
+                        </div>
+                        <button type="button" (click)="onCheckRoom()">Check Availability</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="footer-section">
+    <div class="copyright-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <span style="color: #ffff;">Copyright 2020 By Mạch Chí Thuận - thuamcgcs16103@fpt.edu.vn</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Room Details Section End -->

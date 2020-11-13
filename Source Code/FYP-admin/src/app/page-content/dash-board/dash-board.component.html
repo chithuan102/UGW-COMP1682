@@ -1,0 +1,102 @@
+<app-box-content>
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Daily reservation</h3>
+      <form (keyup.enter)="onSearch()">
+        <div class="row">
+          <div class="col-md-2">
+            Reservation Id: <input nz-input placeholder="Input reservation id" [(ngModel)]="filterResId"
+              name="filterResId" type="number" />
+          </div>
+          <div class="col-md-2">
+            Guest Name: <input nz-input placeholder="Input guest name" [(ngModel)]="filterGuestName" name="guestName" />
+          </div>
+          <div class="col-md-2">
+            Reservation status:
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Reservation Status" name="filterStatus"
+              [(ngModel)]="filterStatus">
+              <nz-option nzLabel="All" nzValue="ALL"></nz-option>
+              <nz-option nzLabel="Arrival" nzValue="ARRIVAL"></nz-option>
+              <nz-option nzLabel="In House" nzValue="INHOUSE"></nz-option>
+            </nz-select>
+          </div>
+          <div class="col-md-3">
+            <br>
+            <button nz-button class="btn btn-primary" style="margin-right: 10px" (click)="onSearch()"
+              type="button">Search</button>
+            <button nz-button class="btn btn-primary" (click)="onResetFilter()">Reset</button>
+          </div>
+        </div>
+      </form>
+      <br>
+      <nz-table [nzData]="reservations">
+        <thead>
+          <tr>
+            <th>Res. Id</th>
+            <th>Guest Name</th>
+            <th>Room Type</th>
+            <th>Room Id</th>
+            <th>Res. Status</th>
+            <th>Arrival</th>
+            <th>Departure</th>
+            <th>Action</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of reservations">
+            <td><a [routerLink]="['/reservation',data.id]" routerLinkActive="router-link-active">{{ data.id }}</a></td>
+            <td><a [routerLink]="['/profile',data.mainGuestId]" >{{ data.guestName }}</a></td>
+            <td>{{ data.roomName }}</td>
+            <td>{{ data.roomId }}</td>
+            <td>
+              <span class="tag tag-blue" *ngIf="data.reservationStatus === 'INHOUSE'">{{data.reservationStatus}}
+                <!---->
+                <!----></span>
+              <span class="tag tag-green" *ngIf="data.reservationStatus === 'ARRIVAL'">{{data.reservationStatus}}
+                <!---->
+                <!----></span>
+              <span class="tag tag-yellow" *ngIf="data.reservationStatus === 'CHECKOUT'">{{data.reservationStatus}}
+                <!---->
+                <!----></span>
+              <span class="tag tag-red" *ngIf="data.reservationStatus === 'CANCELLED'">{{data.reservationStatus}}
+                <!---->
+                <!----></span>
+            </td>
+            <td>{{ data.arrivalDate | date :'yyyd-MM-dd'}}</td>
+            <td>{{ data.departureDate | date :'yyyd-MM-dd'}}</td>
+            <td>
+              <button nz-button *ngIf="data.reservationStatus === 'ARRIVAL'" (click)="checkIn(data)">Check-in</button>
+              <button nz-button *ngIf="data.reservationStatus === 'INHOUSE'" (click)="checkOut(data)">Check-out</button>
+
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+    <div class="col-md-6" style="margin: 0 auto;">
+      <h3>Room Available</h3>
+      <span *ngIf="pieChartData.length === 0">No room available</span>
+      <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType"
+        [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend"
+        *ngIf="pieChartData.length > 0">
+      </canvas>
+    </div>
+    <div class="col-md-6">
+      <div>
+        <h3>Revenue
+          <span *ngIf="revenueType === '7_DAYS'">7 days</span>
+          <span *ngIf="revenueType === '30_DAYS'">30 days</span>
+        </h3>
+        <select name="revenueType" id="" (change)="getReporByDate($event.target.value)" [(ngModel)]="revenueType">
+          <option value="7_DAYS">7 Days</option>
+          <option value="30_DAYS">30 Days</option>
+        </select>
+      </div>
+      <br>
+      <canvas width="500" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
+        [chartType]="barChartType" [legend]="barChartLegend" [chartType]="barChartType"
+        [colors]="barChartColors"></canvas>
+    </div>
+  </div>
+</app-box-content>

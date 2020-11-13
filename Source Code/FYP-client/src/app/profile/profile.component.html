@@ -1,0 +1,157 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-3">
+      <nz-card style="width:100%;" nzTitle="Account Information" nzType="inner">
+        <nz-list>
+          <nz-list-item *ngFor="let item of data">
+            <span style="cursor: pointer;" (click)="showItem(item)"> {{ item }}</span>
+          </nz-list-item>
+        </nz-list>
+
+      </nz-card>
+    </div>
+    <div class="col-md-9">
+      <div *ngIf="showForm === 0">
+        <nz-card style="width:100%;" nzTitle="Account Information" nzType="inner">
+          <form nz-form [formGroup]="userInfoForm">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>First Name</label>
+                <input type="text" class="form-control" placeholder="First name" formControlName="firstName">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Last Name</label>
+                <input type="text" class="form-control" placeholder="Last name" formControlName="lastName">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Gender</label>
+                <select name="gender" id="" class="form-control" formControlName="gender">
+                  <option [ngValue]="'Mr'" value="Mr">Mr</option>
+                  <option [ngValue]="'Ms'" value="Ms">Ms</option>
+                  <option [ngValue]="'Mrs'" value="Mrs">Mrs</option>
+              </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Birtdate</label>
+                <!-- <nz-date-picker type="text" class="form-control" placeholder="Birthdate" formControlName="birthDate" [dateFormat]="'YYYY-MM-DD'"> -->
+                  <nz-date-picker [nzFormat]="dateFormat" class="form-control" formControlName="birthDate"> </nz-date-picker>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Phone number</label>
+                <input type="text" class="form-control" placeholder="Phone number" formControlName="phoneNumber">
+              </div>
+              <div class="form-group col-md-6">
+                <label>Address</label>
+                <input type="text" class="form-control" placeholder="Address" formControlName="address">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Card type</label>
+                <select name="cardType" id="" class="form-control" formControlName="idCardType">
+                  <option value="Passport" [ngValue]="'Passport'">Passport</option>
+                  <option value="Identity card" [ngValue]="'Identity card'">Identity card</option>
+              </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Card number</label>
+                <input type="text" class="form-control" placeholder="Card Number" formControlName="idCardNumber">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Email</label>
+                <input type="text" class="form-control" placeholder="Email" formControlName="email" disabled>
+              </div>
+            </div>
+          <div class="text-center my-3">
+            <button nz-button nzType="success" class="mr-2" style="background-color: #248f66;color:#fff" (click)="onUpdateInfo()">Update Infomation</button>
+            <button nz-button nzType="primary" (click)="onUpdatePassword()">Update Password</button>
+          </div>
+          </form>
+        </nz-card>
+      </div>
+      <div *ngIf="showForm === 1">
+        <nz-card style="width:100%;" nzTitle="Report" nzType="inner">
+          <div class="row">
+            <div class="col-6">
+              <p>Totol money spent: {{totalAmount}}$</p>
+            </div>
+            <div class="col-6">
+              Total booking: {{listOfData.length}}
+            </div>
+          </div>
+
+        </nz-card>
+        <nz-card style="width:100%;" nzTitle="Manage Booking History" nzType="inner" class="mt-3">
+          <table class="table table-responsive">
+            <thead>
+              <tr>
+                <!-- <th [nzSelections]="listOfSelection" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                  (nzCheckedChange)="onAllChecked($event)"></th> -->
+                <th>Res. Id</th>
+                <th>Room</th>
+
+                <th>Arrival Date</th>
+                <th>Departure Date</th>
+                <th>Status</th>
+                <th>Price per Night</th>
+                <th>Amount</th>
+                <th>Created Date</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of listOfData">
+                <!-- <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td> -->
+                <td>{{ data.id }}</td>
+                <td>{{ data.roomTitle }}</td>
+
+                <td>{{ data.arrivalDate | date: 'yyyy-MM-dd' }}</td>
+                <td>{{ data.departureDate |date: 'yyyy-MM-dd' }}</td>
+                <td> <span class="tag tag-blue" *ngIf="data.reservationStatus === 'INHOUSE'">{{data.reservationStatus}}
+                  <!---->
+                  <!----></span>
+                <span class="tag tag-green" *ngIf="data.reservationStatus === 'ARRIVAL'">{{data.reservationStatus}}
+                  <!---->
+                  <!----></span>
+                <span class="tag tag-yellow" *ngIf="data.reservationStatus === 'CHECKOUT'">{{data.reservationStatus}}
+                  <!---->
+                  <!----></span>
+                <span class="tag tag-red" *ngIf="data.reservationStatus === 'CANCELLED'">{{data.reservationStatus}}
+                  <!---->
+                  <!----></span></td>
+                <td>{{ data.price }}$</td>
+                <td>{{ data.amount }}$</td>
+                <td>{{ data.createdTime | date: 'yyyy-MM-dd HH:mm:ss' }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </nz-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<nz-modal [(nzVisible)]="isShowModalChangePassword" nzTitle="Change password" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <form nz-form [formGroup]="changePasswordForm">
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
+        <input nz-input type="password" formControlName="newPassword" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Confirm Password</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please input your password!">
+        <input nz-input type="password" formControlName="confirmNewPassword"/>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

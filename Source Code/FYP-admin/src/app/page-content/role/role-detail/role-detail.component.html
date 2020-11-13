@@ -1,0 +1,48 @@
+<app-box-content>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="room-info">
+                <h4>Role Info</h4>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-warning" style="margin-bottom: 20px; margin-right: 10px;" onclick="window.history.back()">Back</button>
+                        <button class="btn btn-primary" style="margin-bottom: 20px;" (click)="onSave()">Save</button>
+
+                    </div>
+                </div>
+               <div class="row" style="margin-bottom: 30px;">
+                <div class="col-md-6">
+                    <form action="" class="mb-3" >
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control col-md-4" aria-describedby="emailHelp" placeholder="Name"
+                                name="name" [(ngModel)]="roleDetail.title" >
+                        </div>
+                    </form>
+                </div>
+               </div>
+               <div class="row" style="margin-bottom: 10px;">
+                   <div class="col-md-12">
+                       <input type="text" class="form-control" style="width: 300px;float: right;" placeholder="Search..." (keyup)="onSeaching($event.target.value)">
+                   </div>
+               </div>
+                <nz-table #basicTable [nzData]="listOfData">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of basicTable.data">
+                            <td>{{ data.title }}</td>
+                            <td>
+                                <app-toggle-switch [model]="data.status" [name]="'status'" (modelChange)="onStatusChange($event ,data)"></app-toggle-switch>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </div>
+        </div>
+    </div>
+</app-box-content>

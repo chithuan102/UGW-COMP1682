@@ -1,0 +1,31 @@
+<app-box-content>
+    <form>
+        <h3>User Info</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Username</label>
+                        <input type="text" class="form-control" placeholder="User name" name="username"
+                            [(ngModel)]="user.username" readonly>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Old Password</label>
+                        <input type="password" class="form-control" placeholder="Input old password" [(ngModel)]="oldPassword" name="oldPassword">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>New Password</label>
+                        <input type="password" class="form-control" placeholder="Input new password" [(ngModel)]="newPassword" name="newPassword">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Confirm New Password</label>
+                        <input type="password" class="form-control" placeholder="Input confirm password" [(ngModel)]="confirmNewPassword" name="confirmNewPassword"> 
+                    </div>
+                </div>
+                <div class=" col-md-12">
+                    <button nz-button nzType="" (click)="onUpdatePassword()">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</app-box-content>

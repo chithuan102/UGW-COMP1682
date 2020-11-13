@@ -1,0 +1,351 @@
+<div class="container py-5">
+    <div class="my-5" style="max-width: 80%;">
+        <nz-steps [nzCurrent]="index" (nzIndexChange)="onIndexChange($event)">
+            <nz-step nzTitle="Booking Information" nzDescription=""></nz-step>
+            <nz-step nzTitle="Select Room" nzDescription="" [nzDisabled]="disableTabSelectRoom"></nz-step>
+            <nz-step nzTitle="Guest Information" [nzDisabled]="disableTabInfo" nzDescription=""></nz-step>
+        </nz-steps>
+    </div>
+    <div class="form mt-3">
+        <div *ngIf="index === 0">
+            <form>
+                <div class="form-group">
+                    <label style="font-size: 22px;">1. Select Date</label>
+                    <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onSelectDate($event)" name="dateRange">
+                    </nz-range-picker>
+                </div>
+                <div class="form-group">
+                    <label style="font-size: 22px;">2. Select Room Type</label>
+                    <nz-select [(ngModel)]="selectedRoomType" name="selectedRoomType">
+                        <nz-option *ngFor="let option of roomTypes" [nzValue]="option" [nzLabel]="option.title">
+                        </nz-option>
+                    </nz-select>
+                </div>
+                <div class="form-group">
+                    <label style="font-size: 22px;">3. Number of Guest</label>
+                    <input nz-input placeholder="Input number of Guest" [(ngModel)]="noOfGuest" name="noOfGuest"
+                        type="number" />
+                </div>
+                <div class="text-right" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary btn-lg" style="background-color: #dfa974;"
+                        (click)="onCheckRoom()">CHECK NOW
+                    </button>
+                </div>
+            </form>
+
+        </div>
+        <div *ngIf="index === 1">
+            <div class="booking-info my-5">
+                <div class="booking-title">
+                    YOUR BOOKING
+                </div>
+                <div class="booking-info-row">
+                    <label for="">DISTRICT</label>
+                    <span>: {{desHotel.district}}</span>
+                </div>
+                <div class="booking-info-row">
+                    <label for="">HOTEL</label>
+                    <span>: {{desHotel.title}}</span>
+                </div>
+                <div class="booking-info-row">
+                    <label for="">ADDRESS</label>
+                    <span>: {{desHotel.address}}</span>
+                </div>
+                <div class="booking-info-row">
+                    <label for="">PHONE NUMBER</label>
+                    <span>: {{desHotel.phone}}</span>
+                </div>
+            </div>
+            <div class="booking-info"
+                style="background-color: #dfa974; padding: 10px;color: #fafafa;font-weight: bold;">
+                <div class="row">
+                    <div class="col-md-3 col-6">
+                        <label for="">No of guest</label>
+                        <input nz-input placeholder="Input number of Guest" [(ngModel)]="noOfGuest" name="noOfGuest"
+                            type="number" />
+                    </div>
+                    <div class="col-md-4 col-6">
+                        <label for="">Date range</label>
+                        <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="onSelectDate($event)"
+                            name="dateRange"></nz-range-picker>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <label for="">Room Type</label>
+                        <nz-select [(ngModel)]="selectedRoomType" name="selectedRoomType">
+                            <nz-option *ngFor="let option of roomTypes" [nzValue]="option" [nzLabel]="option.title">
+                            </nz-option>
+                        </nz-select>
+                    </div>
+                    <div class="col-md-2 col-6">
+                        <label for=""> &nbsp;</label>
+                        <button type="submit" class="btn btn-primary form-control" style="background-color: #ffdba3;"
+                            (click)="onCheckRoom()">Change</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="margin-bottom: 200px;">
+                <div *ngFor="let item of listAvailableRooms">
+                    <div class="row mb-3" *ngIf="item.rooms.length > 1">
+                        <div class="col-md-4">
+                            <div class="thumbnail">
+                                <img width="100%"
+                                    src="{{item.thumbnail}}"
+                                    alt="">
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-12">
+                            <div class="room_info">
+                                <div class="room_title">
+                                    <h3><a [routerLink]="['/room-detail',item.id]">{{item.title}}</a></h3>
+                                </div>
+                                <div class="room_description">
+                                    <span>{{item.description}}</span><br />
+                                </div>
+                                <div class="room_sub-info">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="room_service">
+                                                <span>- Bed: 2 beds</span><br />
+                                                <span>- Ocuppancy: {{item.maxOccupancy}} peoples</span><br />
+                                                <span>- Services:</span> <button class="btn" style="outline: none;"
+                                                    (click)="item.showService = !item.showService">Show all
+                                                    services</button><br />
+                                                <span class="list-services" *ngIf="item.showService">
+                                                    <ul>
+                                                        <li *ngFor="let service of item.roomServices">{{service.title}}
+                                                        </li>
+                                                        <!-- <li>Điều hòa</li>
+                                                        <li> Đồng hồ báo thức/radio</li>
+                                                        <li> Bồn tắm và vòi sen riêng biệt</li>
+                                                        <li> Máy pha cafe</li>
+                                                        <li> Daily</li>
+                                                        <li> Mineral Water</li>
+                                                        <li> Máy sấy tóc</li>
+                                                        <li> Hot Shower</li>
+                                                        <li> Két an toàn</li>
+                                                        <li> Truy cập Internet qua WiFi</li>
+                                                        <li>Phòng khách</li>
+                                                        <li>Mini Refrigerator</li>
+                                                        <li>Quầy bar mini</li>
+                                                        <li>Truyền hình cáp/Vệ tinh</li>
+                                                        <li>Điện thoại</li>
+                                                        <li>Đồ phòng tắm</li>
+                                                        <li>Khăn tắm</li>
+                                                        <li>Bàn làm việc</li> -->
+                                                    </ul>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7 float-right">
+                                            <div class="room-price">
+                                                <div>
+                                                    <span>Price: <strong>{{item.price}} USD/per
+                                                            night</strong></span><br />
+                                                </div>
+                                                <div class="d-flex">
+                                                    <span class="col-label">No of rooms: </span><br />
+                                                    <select name="totalSelected" id="" [(ngModel)]="item.totalSelected"
+                                                        (change)="onChooseRoom()">
+                                                        <option value="{{number}}" *ngFor="let number of item.rooms">
+                                                            {{number}}</option>
+                                                    </select>
+                                                    /{{item.rooms.length -1}} rooms
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="index === 2">
+            <div class="row" style="margin-bottom: 100px;">
+                <div class="col-md-8">
+                    <nz-card style="width:100%;" nzTitle="Guest information" class="mb-3">
+                        <form [formGroup]="infoForm">
+                            <div nz-row [nzGutter]="24">
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item>
+                                        <nz-form-label nzRequired nzFor="note">Last Name</nz-form-label>
+                                        <nz-form-control [nzSpan]="24" nzErrorTip="Please input your username!">
+                                            <input type="text" class="form-control" formControlName="lastName">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label nzRequired nzFor="note">Phone number</nz-form-label>
+                                        <nz-form-control [nzSpan]="24" nzErrorTip="Please input your username!">
+                                            <input type="text" class="form-control" formControlName="phoneNumber">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label nzRequired nzFor="note">ID card type</nz-form-label>
+                                        <select name="cardType" id="" class="form-control" formControlName="idCardType">
+                                            <option value="Passport" [ngValue]="'Passport'">Passport</option>
+                                            <option value="Identity card" [ngValue]="'Identity card'">Identity card</option>
+                                        </select>
+                                    </nz-form-item>
+                                </div>
+                                <div nz-col [nzSpan]="12">
+                                    <nz-form-item>
+                                        <nz-form-label nzRequired nzFor="note">First Name</nz-form-label>
+                                        <input type="text" class="form-control" formControlName="firstName">
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label nzRequired nzFor="note">Email</nz-form-label>
+                                        <nz-form-control [nzSpan]="24" nzErrorTip="Please input your username!">
+                                            <input type="text" class="form-control" formControlName="email">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                    <nz-form-item>
+                                        <nz-form-label nzRequired nzFor="note">ID card number</nz-form-label>
+                                        <nz-form-control [nzSpan]="24">
+                                            <input type="text" class="form-control" formControlName="idCardNumber">
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </div>
+
+                            </div>
+                            <div nz-row [nzGutter]="24">
+                                <div nz-col [nzSpan]="24">
+                                    <nz-form-item>
+                                        <nz-form-label nzRequired nzFor="note">Notes</nz-form-label>
+                                        <textarea class="form-control" rows="3" placeholder="Write any thing"
+                                            formControlName="notes"></textarea>
+                                    </nz-form-item>
+                                </div>
+                            </div>
+                        </form>
+                    </nz-card>
+                    <nz-card style="width:100%;" nzTitle="Payment method">
+                        <div nz-row [nzGutter]="24">
+                            <div nz-col [nzSpan]="24">
+                                <nz-form-item>
+                                    <span style="color:red">To create a booking, guest must paid 10% of price. Select
+                                        your payment type:</span>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                        <div nz-row [nzGutter]="24">
+                            <div nz-col [nzSpan]="24">
+                                <nz-form-item>
+                                    <nz-radio-group [(ngModel)]="radioValue">
+                                        <label nz-radio nzValue="BAO_KIM">Bảo kim</label>
+                                        <label nz-radio nzValue="Paypal">PayPal</label>
+                                        <label nz-radio nzValue="MasterCard">Visa/MasterCard</label>
+                                    </nz-radio-group>
+                                </nz-form-item>
+                            </div>
+                        </div>
+                        <div class="mb-3" style="border-top: 1px dashed #b3b3b3;"></div>
+                        <button nz-button nzType="primary" nzDanger class="w-100" style="height: 48px;"
+                            (click)="onPayNow()">Pay
+                            now</button>
+                    </nz-card>
+
+                </div>
+                <div class="col-md-4">
+                    <nz-card style="width:100%;" nzTitle="Payment Information">
+                        <div class="row" *ngFor="let item of selectedRooms">
+                            <div class="col-8">
+                                <span>{{item.title}}</span>
+                            </div>
+                            <div class="col-4">
+                                <span>{{item.price}} USD</span>
+                            </div>
+                        </div>
+                        <div class="mb-3 mt-3" style="border-top: 1px solid #b3b3b3;"></div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span>Total Price</span>
+                            </div>
+                            <div class="col-6">
+                                <span style="font-size: 20px;color: rgb(230, 44, 44);">{{totalPrice}} USD</span>
+                            </div>
+                        </div>
+                    </nz-card>
+                </div>
+            </div>
+
+        </div>
+        <div *ngIf="index === 3">
+        </div>
+    </div>
+</div>
+
+<div class="room-selected show" *ngIf="isShowRoomSelected">
+    <div class="row">
+        <div class="col-6 text-left">
+            <h4 style=" color: #fff !important"><strong>{{selectedRooms.length}} room selected</strong></h4>
+            <p style="font-weight: bold;">Total price: {{totalPrice}} USD</p>
+        </div>
+        <div class="col-6 text-center">
+            <button type="button" class="btn btn-primary btn-lg" style="background-color: #ffdba3;"
+                (click)="bookNow()">Book now</button>
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<nz-modal [(nzVisible)]="isShowModalLogin" nzTitle="Pay with {{radioValue}}" (nzOnCancel)="handleCancelLogin()"
+    (nzOnOk)="handleOkLogin()">
+    <form nz-form [formGroup]="loginForm" class="login-form">
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input your username!">
+                <nz-input-group nzPrefixIcon="user">
+                    <input type="text" nz-input formControlName="userName" placeholder="Username" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please input your Password!">
+                <nz-input-group nzPrefixIcon="lock">
+                    <input type="password" nz-input formControlName="password" placeholder="Password" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isShowModalPayment" nzTitle="Pay with {{radioValue}}" (nzOnCancel)="handleCancelPayment()"
+    (nzOnOk)="handleOkPayment()">
+    <form nz-form [formGroup]="paymentForm" class="login-form">
+        <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>Card number</nz-form-label>
+            <nz-form-control [nzSpan]="12" nzValidatingTip="Validating...">
+                <input nz-input formControlName="cardNumber" placeholder="Card number" />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>Expiration Date</nz-form-label>
+            <nz-form-control [nzSpan]="12">
+                <nz-date-picker [nzFormat]="dateFormat" placeholder="Expiration date" formControlName="expirationDate">
+                </nz-date-picker>
+            </nz-form-control>
+        </nz-form-item>
+        <div class="mb-3 mt-3" style="border-top: 1px solid #b3b3b3;"></div>
+        <h4>Your order summary</h4>
+        <nz-table #basicTable [nzData]="selectedRooms">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data">
+                    <td>{{data.title}} - Quantity: {{data.totalSelected}}</td>
+                    <td>{{(data.price * data.totalSelected)*(10/100) | number : '1.2'}}$ (10% of Room Price)</td>
+                </tr>
+            </tbody>
+        </nz-table>
+        <div class="mb-3 mt-3" style="border-top: 1px solid #b3b3b3;"></div>
+        <!-- <div class="d-flex" style="justify-content: space-between;">
+            <div>Item total: {{totalPrice}}</div>
+            <div>${{totalPrice}}</div>
+        </div> -->
+    </form>
+</nz-modal>

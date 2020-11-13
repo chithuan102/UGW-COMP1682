@@ -1,0 +1,59 @@
+<app-box-content>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="room-info">
+        <h4>Room Service</h4>
+        <form (keyup.enter)="onSearch()">
+          <div class="row">
+            <div class="col-md-2">
+              Service Name: <input nz-input placeholder="Input service name" [(ngModel)]="filterName" name="filterName"
+                type="text" />
+            </div>
+            <div class="col-md-3">
+              <br>
+              <button nz-button class="btn btn-primary" style="margin-right: 10px" (click)="onSearch()"
+                type="submit">Search</button>
+              <button nz-button class="btn btn-primary" (click)="onResetFilter()">Reset</button>
+            </div>
+            <div class="col-md-7 text-right">
+              <br>
+              <button (click)="showModal()" nz-button style="margin-bottom: 20px;">Create</button>
+            </div>
+          </div>
+        </form>
+        <nz-table #basicTable [nzData]="listOfData">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Status</th>
+              <th>Action</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of listOfData">
+              <td>{{ data.title }}</td>
+              <td>
+                <app-toggle-switch [model]="!data.disabled" [name]="'status'"
+                  (modelChange)="onStatusChange($event ,data)"></app-toggle-switch>
+              </td>
+              <td>
+                <a (click)="delete(data)">Delete</a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </div>
+</app-box-content>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Service information" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+  <form nz-form [formGroup]="createForm">
+    <div class="form-group">
+      <label for="exampleFormControlInput1">Name</label>
+      <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Type Name"
+        formControlName="title">
+    </div>
+  </form>
+</nz-modal>

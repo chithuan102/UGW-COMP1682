@@ -1,0 +1,64 @@
+[nz-radio] {
+    display: block;
+    height: 32px;
+    line-height: 32px;
+}
+
+.booking-title {
+    font-size: 64px;
+    text-align: center;
+}
+.booking-info-row {
+    font-size: 16px;
+    padding: 0 10%;
+    label {
+        width: 25%;
+    }
+    span {
+        width: 75%;
+    }
+}
+
+.card {
+    min-height: 100px;
+    width: 100%;
+    padding: 10px;
+}
+.room_info {
+    font-size: 17px;
+}
+
+.room-price div {
+    margin-bottom: 5px;
+}
+
+.ant-steps-item-process .ant-steps-item-icon {
+    background: #dfa974 !important;
+}
+
+.room-selected {
+    background-color: #dfa974;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    min-height: 100px;
+    height: auto;
+    padding: 20px 20% 0 20%;
+    z-index: 10;
+    color: #fff !important
+}
+
+.hidden {
+    display: none;
+}
+.show {
+    display: block;
+}
+
+nz-select,
+nz-range-picker,
+nz-date-picker {
+    width: 100%;
+}
+
+

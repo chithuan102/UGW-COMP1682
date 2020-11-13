@@ -1,0 +1,29 @@
+
+server:
+    port: 1998
+
+spring:
+    datasource:
+        driverClassName: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/final_year_db
+        username: root
+        password:
+    jpa:
+        hibernate.ddl-auto: update
+        generate-ddl: true
+        show-sql: false
+        database: default
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    jackson:
+        time-zone: Asia/Ho_Chi_Minh
+
+logging:
+    file: logs/ads.log
+    level:
+        root: INFO
+        org:
+            hibernate: WARN
+log4j:
+    logger:
+        org:
+            hibernate: info

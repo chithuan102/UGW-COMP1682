@@ -1,0 +1,33 @@
+<nav class="navbar navbar-default navbar-static-top m-b-0">
+    <div class="navbar-header">
+        <div class="top-left-part">
+            <a class="logo" href="">
+                <b>
+                    <img src="../assets/plugins/images/admin-logo.png" alt="home" class="dark-logo" />
+                    <img src="../assets/plugins/images/admin-logo-dark.png" alt="home" class="light-logo" />
+                </b>
+                <span class="hidden-xs">
+                    <img src="../assets/plugins/images/admin-text.png" alt="home" class="dark-logo" />
+                    <img src="../assets/plugins/images/admin-text-dark.png" alt="home" class="light-logo" />
+                </span>
+            </a>
+        </div>
+        <ul class="nav navbar-top-links navbar-right pull-right">
+            <li>
+                <a class="nav-toggler open-close waves-effect waves-light hidden-lg"
+                    (click)="showSidebar()"><i class="fa fa-bars"></i></a>
+            </li>
+            <li>
+                <a class="profile-pic" nz-dropdown [nzDropdownMenu]="menu"> <img src="../assets/plugins/images/users/varun.jpg" alt="user-img"
+                        width="36" class="img-circle"><b class="hidden-xs">{{userInfo.username}}</b></a>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <ul nz-menu nzSelectable>
+                                <li nz-menu-item><a [routerLink]="['/user/info']" style="color:#000">
+                                        Profile</a></li>
+                                <li nz-menu-item (click)="onLogout()">Logout</li>
+                            </ul>
+                        </nz-dropdown-menu>
+            </li>
+        </ul>
+    </div>
+</nav>

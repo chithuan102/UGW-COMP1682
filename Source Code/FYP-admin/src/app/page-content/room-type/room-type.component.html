@@ -1,0 +1,54 @@
+<app-box-content>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="room-info">
+        <h4>Room Type Information</h4>
+        <form (keyup.enter)="onSearch()">
+          <div class="row">
+            <div class="col-md-2">
+              Room type: <input nz-input placeholder="Input type name" [(ngModel)]="filterName" name="filterName"
+                type="text" />
+            </div>
+            <div class="col-md-3">
+              <br>
+              <button nz-button class="btn btn-primary" style="margin-right: 10px" (click)="onSearch()"
+                type="submit">Search</button>
+              <button nz-button class="btn btn-primary" (click)="onResetFilter()">Reset</button>
+            </div>
+          </div>
+        </form>
+        <!-- <div class="row">
+          <div class="col-md-12 text-right">
+            <button nz-button style="margin-bottom: 20px;"><a [routerLink]="['/room-type/create']">Create</a></button>
+          </div>
+        </div> -->
+        <br>
+        <nz-table #basicTable [nzData]="listOfData">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of listOfData">
+              <td>{{ data.id}}</td>
+              <td>{{ data.title }}</td>
+              <td>
+                <app-toggle-switch [model]="!data.disabled" [name]="'status'"
+                  (modelChange)="onStatusChange($event ,data)"></app-toggle-switch>
+              </td>
+
+
+              <td>
+                <a [routerLink]="['/room-type',data.id]">Edit</a>
+              </td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </div>
+  </div>
+</app-box-content>

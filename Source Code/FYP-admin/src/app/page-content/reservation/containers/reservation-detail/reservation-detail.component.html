@@ -1,0 +1,205 @@
+<nz-breadcrumb>
+    <nz-breadcrumb-item>
+        <a [routerLink]="['/dash-board']">Dashboard</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+        <a [routerLink]="['/reservation']">Reservation</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+        Reservation No {{reservation.id}}
+    </nz-breadcrumb-item>
+</nz-breadcrumb>
+
+<div class="">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 style="justify-content: flex-start;">Reservation Information</h2>
+
+        </div>
+        <div class="col-md-6 " style="text-align:right">
+            <button nz-button style="margin-bottom: 10px; margin-right:10px" (click)="checkIn()"
+                *ngIf="reservation.reservationStatus ==='ARRIVAL'">Checkin</button>
+                <button nz-button style="margin-bottom: 10px; margin-right:10px" (click)="cancelReservation()"
+                *ngIf="reservation.reservationStatus ==='ARRIVAL'">Cancel</button>
+            <button nz-button style="margin-bottom: 10px;margin-right:10px" (click)="onChangeRoom()" *ngIf="reservation.reservationStatus !=='CHECKOUT'">Change Room</button>
+            <button nz-button style="margin-bottom: 20px; margin-right: 10px" (click)="checkOut()"
+            *ngIf="reservation.reservationStatus === 'INHOUSE' ">Checkout</button>
+            <button nz-button style="margin-bottom: 10px;" (click)="goToBilling()">Billing</button>
+
+        </div>
+    </div>
+    <!-- <h3>Guest Info</h3> -->
+    <form action="">
+        <div class="row" style="margin-bottom: 10px">
+            <div class="col-md-4">
+               <div class="info-card info-card-green">
+                <label class="title">Reservation No:</label>
+                <span class="value">&nbsp;{{reservation.id}}</span><br>
+                <label class="title">Main Guest:</label>
+                <span>&nbsp;<a [routerLink]="['/profile', guestInfo.id]" routerLinkActive="router-link-active" class="value">{{guestInfo.firstName && guestInfo.lastName ? guestInfo.lastName + ' ' + guestInfo.firstName: guestInfo.guestName}}</a></span>
+               </div>
+            </div>
+            <div class="col-md-4">
+                <div class="info-card info-card-red">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="" style="font-size: 16px; color:grey;">Arrival Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label><span class="font-bold"> {{reservation.arrivalDate}}<!----><!----></span><br>
+                            <label for="" style="font-size: 16px; color:grey;">Departure Date&nbsp;:</label><span class="font-bold">&nbsp;{{reservation.departureDate}}<!----><!----></span><br>
+                            <label for="" style="font-size: 16px; color:grey;">Total dates&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label><span class="font-bold"> {{totalDate}} days<!----><!----></span><br>
+                        </div>
+                    </div>
+
+                 
+                </div>
+             </div>
+            <div class="col-md-4">
+               <div class="info-card info-card-blue">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="" style="font-size: 16px; color:grey;">Status:</label><br>
+                        <span class="tag tag-blue" *ngIf="reservation.reservationStatus === 'INHOUSE'">{{reservation.reservationStatus}}<!----><!----></span>
+                        <span class="tag tag-green" *ngIf="reservation.reservationStatus === 'ARRIVAL'">{{reservation.reservationStatus}}<!----><!----></span>
+                        <span class="tag tag-yellow" *ngIf="reservation.reservationStatus === 'CHECKOUT'">{{reservation.reservationStatus}}<!----><!----></span>
+                        <span class="tag tag-red" *ngIf="reservation.reservationStatus === 'CANCELLED'">{{reservation.reservationStatus}}<!----><!----></span>
+                    </div>
+                    <div class="col-md-8">
+                        <label for="" style="font-size: 16px; color:grey;">Check-In Date&nbsp;&nbsp;:</label><span class="font-bold"> {{reservation.checkInDate}}<!----><!----></span><br>
+                        <label for="" style="font-size: 16px; color:grey;">CheckOut Date&nbsp;:</label><span class="font-bold"> {{reservation.checkOutDate}}<!----><!----></span><br>
+                    </div>
+                </div>
+
+               </div>
+            </div>
+        </div>
+        <div class="row info-card"> 
+            <div class="col-md-4" style="padding-left: 0">
+                <h4>Room Info</h4>
+                <div class="form-group">
+                    <label class="title">Room Id: </label>
+                    <span class="value">&nbsp;{{reservation.roomId}}</span>
+                </div>
+                <div class="form-group">
+                    <label class="title">Room Type:</label>
+                    <span class="value">&nbsp;{{roomInfo.title}}</span>
+                </div>
+                <div class="form-group">
+                    <label class="title">Adults:</label>
+                    <span class="value">&nbsp;{{roomInfo.maxOccupancy}}</span>
+                </div>
+            </div>
+            <div class="col-md-4" style="border-right: 1px dashed #dfe3e6; border-left: 1px dashed #dfe3e6">
+                <h4>Payment Info</h4>
+                <div class="form-group">
+                    <label class="title">Price per Night:</label>
+                    <span class="value">&nbsp;{{reservation.price}}$</span>
+                </div>
+                <div class="form-group">
+                    <label class="title">Amount:</label>
+                    <span class="value">&nbsp;{{reservation.amount}}$</span>
+                </div>
+                <div class="form-group">
+                    <label class="title">Payment Online Type:</label>
+                    <span class="value">&nbsp;{{reservation.paymentType}}</span>
+                </div>
+            </div>
+            <div class="col-md-4" >
+                <h4>Notes</h4>
+                <div class="form-group">
+                    <textarea name="notes" [(ngModel)]="reservation.notes" id="" cols="30" rows="5" class="form-control" readonly></textarea>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <br>
+    <div class="row info-card"> 
+        <h4 style="justify-content: flex-start;">Room service</h4>
+        <span *ngFor="let item of roomInfo.roomServices" class="tag" style="margin-right: 5px">{{item.title}}</span>
+    </div>
+    <br>
+    <div class="row info-card">
+        <div class="col-md-12" style="padding-left: 0;">
+            <div class="d-flex" style="display: flex; justify-content: space-between;">
+                <h4>Sub guests</h4>
+                <button nz-button style="margin-bottom: 10px;" (click)="showAddSubGuestModal()"
+                    *ngIf="reservation.reservationStatus ==='INHOUSE' || reservation.reservationStatus ==='ARRIVAL'">Add guest</button>
+            </div>
+            <nz-table #filterTable [nzData]="reservation.guests" nzTableLayout="fixed">
+                <thead>
+                    <tr>
+                        <th>Guest Name</th>
+                        <th>Guest Type</th>
+                        <th>Phone Number</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of filterTable.data">
+                        <td><a [routerLink]="['/profile',data.id]"
+                                routerLinkActive="router-link-active">{{ data.fullName }}</a></td>
+                        <td>Sub Guest</td>
+                        <td>{{ data.phoneNumber }}</td>
+                        <td>
+                            <a (click)="deleteSubGuest(data)">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </div>
+</div>
+
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()"
+[nzWidth]="'800'">
+    <nz-table nzShowSizeChanger [nzData]="listOfDisplayData" nzTableLayout="fixed">
+        <thead>
+            <tr>
+                <th nzCustomFilter [nzWidth]="'100'"></th>
+                <th>
+                    Name
+                    <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
+                        [nzDropdownMenu]="menu">
+                        <i nz-icon nzType="search"></i>
+                    </nz-filter-trigger>
+                </th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of listOfDisplayData">
+                <td [nzChecked]="subGuestCheckedId === data.id"
+                    (nzCheckedChange)="onItemChecked(data, data.id, $event)"></td>
+                <td>{{ data.fullName }}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.phoneNumber }}</td>
+
+            </tr>
+        </tbody>
+    </nz-table>
+</nz-modal>
+
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+            <input type="text" readonly nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+            <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">
+                Search
+            </button>
+            <button nz-button nzSize="small" (click)="reset()">Reset</button>
+        </div>
+    </div>
+</nz-dropdown-menu>
+
+
+<nz-modal [(nzVisible)]="isVisibleChangeRoom" nzTitle="Change room Request" (nzOnCancel)="cancelChangeRoom()" (nzOnOk)="onSubmitChangeRoom()">
+    <form nz-form>
+        <div class="form-group">
+            <label for="exampleFormControlSelect1">Choose room:</label>
+            <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="roomToChange" name="roomToChange">
+              <option [ngValue]="item" *ngFor="let item of rooms">{{item.roomCode}} - {{item.roomType.title}}</option>
+            </select>
+          </div>
+    </form>
+  </nz-modal>

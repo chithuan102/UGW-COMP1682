@@ -1,0 +1,73 @@
+.booking-info{
+    border-left-width: 4px;
+    border-left-color: #2fa84f;
+    box-shadow: 0 6px 40px 0 rgba(33,43,54,.06);
+    background-color: #fff;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 4px;
+    padding: 20px;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control{
+  background-color: #fff;
+}
+
+
+.search-box {
+    padding: 8px;
+  }
+
+  .search-box input {
+    width: 188px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .search-box button {
+    width: 90px;
+  }
+
+  .search-button {
+    margin-right: 8px;
+  }
+
+  .info-card{
+    min-height: 120px;
+    box-shadow: 0 6px 40px 0 rgba(33,43,54,.06);
+    background-color: #fff;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 4px;
+    padding: 15px;
+    margin: 0;
+  }
+
+  .info-card-green{
+    border-left: 4px solid #2fa84f;
+  }
+
+  .info-card-blue{
+    border-left: 4px solid #2f7bed;
+  }
+
+  .info-card-red{
+    border-left: 4px solid red;
+  }
+
+
+
+.title{
+  font-size: 16px;
+  color: grey;
+}
+.value{
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.form-group, .form-horizontal .form-group{
+  margin-bottom: 15px;
+}
+ 

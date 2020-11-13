@@ -1,0 +1,56 @@
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav slimscrollsidebar">
+        <div class="sidebar-head">
+            <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span
+                    class="hide-menu">Navigation</span></h3>
+        </div>
+        <ul class="nav" id="side-menu">
+            <li style="padding: 70px 0 0;" *hasPermission="'VIEW_DASHBOARD'">
+                <a [routerLink]="['/dash-board']" routerLinkActive="active"><i class="fa fa-home"></i> Dashboard</a>
+            </li>
+            <li *hasPermission="'VIEW_RESERVATION'">
+                <a [routerLink]="['/reservation']" routerLinkActive="active"><i class="fa fa-calendar-alt"></i>
+                    Reservation</a>
+            </li>
+            <li *hasPermission="'VIEW_ROOM'">
+                <a [routerLink]="['/room']" routerLinkActive="active" ><i
+                        class="fa fa-bed"></i> Room</a>
+            </li>
+            <li *hasPermission="'VIEW_CUSTOMER'">
+                <a [routerLink]="['/profile']" routerLinkActive="active"><i class="fa fa-users"></i> Customer
+                    Profile</a>
+            </li>
+            <li *hasPermission="'VIEW_TRANSACTION_CODE'">
+                <a [routerLink]="['/transaction-code']" routerLinkActive="active"><i class="fas fa-exchange-alt"></i>
+                    Transaction code</a>
+            </li>
+
+            <li *hasPermission="'VIEW_REPORT'">
+                <a [routerLink]="['/report']" routerLinkActive="active"><i class="fa fa-chart-line"></i> Report</a>
+            </li>
+
+            <li *hasPermission="'VIEW_ROOM_TYPE'">
+                <a [routerLink]="['/room-type']" routerLinkActive="active"><i class="fas fa-layer-group"></i> Room
+                    Type</a>
+            </li>
+            <li *hasPermission="'VIEW_ROOM_SERVICE'">
+                <a [routerLink]="['/room-service']" routerLinkActive="active"><img
+                        src="../../../assets/images/room-service.png" alt="" width="20"> Room Service</a>
+            </li>
+            <li *hasPermission="'VIEW_ROLE'">
+                <a [routerLink]="['/role']" routerLinkActive="active"><i class="fas fa-key"></i> Role</a>
+            </li>
+            <li *hasPermission="'VIEW_STAFF'">
+                <a [routerLink]="['/user']" routerLinkActive="active"><i class="fas fa-users"></i> Staff</a>
+            </li>
+            <li *hasPermission="'VIEW_CONTACT'">
+                <a [routerLink]="['/contact']" routerLinkActive="active"><i class="fas fa-comment"></i> Contact</a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+<!-- 
+<li>
+    <a [routerLink]="['/user']" routerLinkActive="active"><i class="fa fa-user fa-fw" aria-hidden="true"></i>User</a>
+</li> -->

@@ -1,0 +1,61 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>
+    <a>Dashboard</a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    Reservation
+  </nz-breadcrumb-item>
+</nz-breadcrumb>
+<app-box-content>
+  <div class="table-operations mt-3">
+  </div>
+   <div>
+    <form (keyup.enter)="onSearch()">
+      <div class="row">
+        <div class="col-md-2">
+          Reservation Id: <input nz-input placeholder="Input reservation id" [(ngModel)]="filterResId" name="filterResId" type="number"/>
+        </div>
+        <div class="col-md-2">
+          Guest Name: <input nz-input placeholder="Input guest name" [(ngModel)]="filterGuestName" name="guestName" />
+        </div>
+        <div class="col-md-2">
+          Date: <nz-range-picker [(ngModel)]="currentDate" (ngModelChange)="onSelectDate($event)" name="currentDate"></nz-range-picker>
+        </div>
+        <div class="col-md-2">
+          Reservation status: 
+          <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select Reservation Status" name="filterStatus" [(ngModel)]="filterStatus">
+            <nz-option nzLabel="All" nzValue="ALL"></nz-option>
+            <nz-option nzLabel="Arrival" nzValue="ARRIVAL"></nz-option>
+            <nz-option nzLabel="In House" nzValue="INHOUSE"></nz-option>
+            <nz-option nzLabel="Check out" nzValue="CHECKOUT"></nz-option>
+            <nz-option nzLabel="Cancelled" nzValue="CANCELLED"></nz-option>
+          </nz-select>
+        </div>
+        <div class="col-md-3">
+          <br>
+           <button nz-button class="btn btn-primary" style="margin-right: 10px" (click)="onSearch()" type="button">Search</button>
+           <button nz-button class="btn btn-primary" (click)="onResetFilter()">Reset</button>
+        </div>
+      </div>
+    </form>
+   </div>
+  <br />
+  <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" style="margin-top: 10px;" (nzSelectedIndexChange)="onChangeIndexTab($event)">
+    <nz-tab nzTitle="ALL" >
+      <app-reservation-table [reservations]="reservations"></app-reservation-table>
+    </nz-tab>
+    <nz-tab nzTitle="Arrival">
+      <app-reservation-table [reservations]="reservations" [reservationStatus]="'ARRIVAL'"></app-reservation-table>
+    </nz-tab>
+    <nz-tab nzTitle="In House">
+      <app-reservation-table [reservations]="reservations" [reservationStatus]="'INHOUSE'"></app-reservation-table>
+    </nz-tab>
+    <nz-tab nzTitle="Checked out">
+      <app-reservation-table [reservations]="reservations" [reservationStatus]="'CHECKOUT'"></app-reservation-table>
+    </nz-tab>
+    <nz-tab nzTitle="Cancelled">
+      <app-reservation-table [reservations]="reservations" [reservationStatus]="'CANCELLED'"></app-reservation-table>
+    </nz-tab>
+  </nz-tabset>
+
+</app-box-content>

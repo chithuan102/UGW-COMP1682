@@ -1,0 +1,81 @@
+<app-box-content>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="room-info">
+          <h4>Profile Information</h4>
+          <form (keyup.enter)="onSearch()">
+            <div class="row">
+              <div class="col-md-2">
+                Guest Name: <input nz-input placeholder="Input guest name" name="filterGuestName" [(ngModel)]="filterGuestName" type="text"/>
+              </div>
+              <div class="col-md-2">
+                Email: <input nz-input placeholder="Input guest email"  name="filterEmail" [(ngModel)]="filterEmail" />
+              </div>
+              <div class="col-md-2">
+                Phone: <input nz-input placeholder="Input guest phone"  [(ngModel)]="filterPhone" name="filterPhone" />
+              </div>
+              <div class="col-md-3">
+                <br>
+                 <button nz-button class="btn btn-primary" style="margin-right: 10px" (click)="onSearch()" type="button">Search</button>
+                 <button nz-button class="btn btn-primary" (click)="onResetFilter()">Reset</button>
+              </div>
+              <div class="col-md-3 text-right">
+                <br>
+                <button (click)="showModal()" nz-button>Create profile</button>
+               </div>
+            </div>
+          </form>
+          <br>
+          <nz-table #basicTable [nzData]="listOfData">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Status</th>
+
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of listOfData">
+                <td>{{ data.gender}}</td>
+                <td>{{ data.firstName + ' ' + data.lastName }}</td>
+                <td>{{ data.phoneNumber}}</td>
+                <td>{{ data.email }}</td>
+                <td>{{ data.address }}</td>
+                <td>
+                  <app-toggle-switch [model]="!data.disabled" [name]="'status'"
+                    (modelChange)="onStatusChange($event ,data)"></app-toggle-switch>
+                </td>
+                <td>
+                  <!-- <nz-divider nzType="vertical"></nz-divider>
+                  <a (click)="delete(data)">Delete</a> -->
+                  <!-- <nz-divider nzType="vertical"></nz-divider> -->
+                  <a [routerLink]="['/profile',data.id]" >Edit</a>
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+    </div>
+  </app-box-content>
+  
+  <nz-modal [(nzVisible)]="isVisible" nzTitle="Create profile" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <form nz-form [formGroup]="createForm">
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Name</label>
+        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Type Name" formControlName="title">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Type</label>
+        <select class="form-control" id="exampleFormControlSelect1" formControlName="type">
+          <option value="SERVICE">SERVICE</option>
+          <option value="PAYMENT">PAYMENT</option>
+        </select>
+      </div>
+    </form>
+  </nz-modal>

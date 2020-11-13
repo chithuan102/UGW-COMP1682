@@ -1,0 +1,93 @@
+<app-box-content>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="room-info">
+                <h4>Profile Info</h4>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button class="btn btn-warning" style="margin-bottom: 20px; margin-right: 10px;" onclick="window.history.back()">Back</button>
+                        <button class="btn btn-primary" style="margin-bottom: 20px;" (click)="onUpdateInfo()">Save</button>
+
+                    </div>
+                </div>
+               <div class="row" style="margin-bottom: 30px;">
+                <div class="col-md-12">
+                    <form nz-form [formGroup]="userInfoForm">
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label>First Name</label>
+                            <input type="text" class="form-control" placeholder="First name" formControlName="firstName">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label>Last Name</label>
+                            <input type="text" class="form-control" placeholder="Last name" formControlName="lastName">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label>Gender</label>
+                            <input type="text" class="form-control" placeholder="Gender" formControlName="gender">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label>Birtdate</label>
+                            <input type="text" class="form-control" placeholder="Birthdate" formControlName="birthDate">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label>Phone number</label>
+                            <input type="text" class="form-control" placeholder="Phone number" formControlName="phoneNumber">
+                          </div>
+                          <div class="form-group col-md-6">
+                            <label>Address</label>
+                            <input type="text" class="form-control" placeholder="Address" formControlName="address">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                            <label>Email</label>
+                            <input type="text" class="form-control" placeholder="Email" formControlName="email">
+                          </div>
+                        </div>
+                      </form>
+                </div>
+               </div>
+             
+               <nz-table [nzData]="['']" *ngIf="!isCreate">
+               <thead>
+                 <tr>
+                   <!-- <th [nzSelections]="listOfSelection" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+                     (nzCheckedChange)="onAllChecked($event)"></th> -->
+                  <th>Reservation Id</th>
+                   <th>Room</th>
+                   <th>Arrival Date</th>
+                   <th>Departure Date</th>
+                   <th>CheckIn Date</th>
+                   <th>Checkout Date</th>
+                   <th>Status</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr *ngFor="let data of listOfData">
+                   <!-- <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td> -->
+                   <td><a [routerLink]="['/reservation' , data.id]" routerLinkActive="router-link-active" >{{ data.id }}</a></td>
+                   <td><a [routerLink]="['/room-type',data.roomType.id]" routerLinkActive="router-link-active" >{{ data.roomType.title }}</a></td>
+                   <td>{{ data.arrivalDate | date: 'yyyy-MM-dd' }}</td>
+                   <td>{{ data.departureDate |date: 'yyyy-MM-dd' }}</td>
+                   <td>{{data.checkInDate }}</td>
+                   <td>{{data.checkOutDate }}</td>
+
+                   <td>
+                    <span class="tag tag-blue" *ngIf="data.reservationStatus === 'INHOUSE'">{{data.reservationStatus}}<!----><!----></span>
+                    <span class="tag tag-green" *ngIf="data.reservationStatus === 'ARRIVAL'">{{data.reservationStatus}}<!----><!----></span>
+                    <span class="tag tag-yellow" *ngIf="data.reservationStatus === 'CHECKOUT'">{{data.reservationStatus}}<!----><!----></span>
+                    <span class="tag tag-red" *ngIf="data.reservationStatus === 'CANCELLED'">{{data.reservationStatus}}<!----><!----></span>
+                   </td>
+   
+                 </tr>
+               </tbody>
+             </nz-table>
+            </div>
+        </div>
+    </div>
+</app-box-content>
